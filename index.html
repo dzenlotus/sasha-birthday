@@ -12,12 +12,12 @@
   <title>Сашечка, с днём рождения!</title>
   <link rel="icon" href="./assets/lotus-generated.png" type="image/png">
   <link rel="stylesheet" href="./assets/fonts.css">
-  <link rel="stylesheet" href="./style.css?v=3.4">
+  <link rel="stylesheet" href="./style.css?v=3.5">
   <link rel="stylesheet" href="./letter.css">
   <link rel="stylesheet" href="./candles.css">
-  <link rel="stylesheet" href="./music.css?v=3.4">
+  <link rel="stylesheet" href="./music.css?v=3.5">
   <link rel="preload" as="image" href="./assets/moonlit-garden.png" fetchpriority="high">
-  <script type="module" src="./app.js?v=3.4"></script>
+  <script type="module" src="./app.js?v=3.5"></script>
 </head>
 <body>
   <a class="skip-link" href="#story">К открытке</a>
@@ -27,16 +27,16 @@
     <nav id="chapters" aria-label="Главы открытки"></nav>
   </footer>
   <div class="ambient-controls">
-    <button class="music-toggle" id="music-toggle" aria-expanded="false" aria-controls="music-panel" aria-label="Включить музыку Chanakya"><span class="icon icon-sound" aria-hidden="true"></span><span>Музыка</span></button>
+    <button class="music-toggle" id="music-toggle" aria-pressed="false" aria-label="Включить музыку Chanakya"><span class="icon icon-sound" aria-hidden="true"></span><span>Музыка</span></button>
     <label class="music-volume" for="music-volume" hidden><span class="sr-only">Громкость музыки</span><input id="music-volume" type="range" min="0" max="100" step="1" value="70" aria-label="Громкость музыки" aria-valuetext="70%"><output id="music-volume-value" for="music-volume">70%</output></label>
     <button class="sound-button" id="sound-toggle" data-action="sound" aria-pressed="false" aria-label="Включить звуковые эффекты"><span class="icon icon-muted" aria-hidden="true"></span><span>Звук выключен</span></button>
-    <button id="music-open-player" class="music-open-player" hidden>Открыть плеер</button>
+    <button id="music-open-player" class="music-open-player" hidden>Включить музыку</button>
   </div>
-  <section id="music-panel" class="music-panel" aria-labelledby="music-title" data-state="off" hidden>
+  <p id="music-status" class="sr-only" role="status" aria-live="polite">Включается только по твоему желанию.</p>
+  <section id="music-panel" class="music-panel" aria-hidden="true" data-state="off" inert hidden>
     <div class="music-panel-heading"><h2 id="music-title">Chanakya</h2><button id="music-close" class="music-close" aria-label="Выключить музыку">Выключить</button></div>
     <p class="music-credit">Rishab Rikhiram Sharma</p>
     <div class="music-video-wrap"><div id="music-video"></div></div>
-    <p id="music-status" class="music-status" role="status" aria-live="polite">Включается только по твоему желанию.</p>
     <div class="music-links">
       <a id="music-watch" class="music-watch" href="https://www.youtube.com/watch?v=2dBHTz6g5AM" target="_blank" rel="noopener noreferrer">Открыть на YouTube</a>
       <a href="https://www.youtube.com/t/terms" target="_blank" rel="noopener noreferrer">Условия</a>

@@ -17,7 +17,7 @@ async function runBirthdayAcceptance() {
   check('ImageGen icons replace SVG icons', !document.querySelector('svg') && getComputedStyle($('.icon')).backgroundImage.includes('icon-atlas.png'));
   check('Future chapters locked', [...document.querySelectorAll('.chapter-link')].slice(1).every(button => button.disabled));
   check('Sound initially off', $('#sound-toggle').getAttribute('aria-pressed') === 'false');
-  check('Music initially off', $('#music-panel').hidden && $('#music-toggle').getAttribute('aria-expanded') === 'false');
+  check('Music initially off', $('#music-panel').hidden && $('#music-toggle').getAttribute('aria-pressed') === 'false');
   check('No YouTube requests before music consent', !document.querySelector('#youtube-api') && !document.querySelector('#music-panel iframe'));
   click('[data-action="start"]');
   check('Start opens rhythm and focuses heading', chapter() === 1 && document.activeElement.id === 'chapter-title');

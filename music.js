@@ -23,6 +23,7 @@ function setStatus(state, message) {
   status.textContent = message;
   toggle.classList.toggle('is-playing', state === 'playing');
   openPlayer.hidden = !opened || !['ready', 'error'].includes(state);
+  openPlayer.textContent = state === 'error' ? 'Открыть YouTube' : 'Включить музыку';
 }
 
 function showError() {
@@ -77,7 +78,7 @@ function createPlayer() {
         }
       },
       onAutoplayBlocked: () => {
-        if (opened) setStatus('ready', 'Нажми Play в плеере, чтобы включить музыку.');
+        if (opened) setStatus('ready', 'Нажми «Включить музыку», чтобы разрешить звук.');
       },
       onError: showError,
     },
@@ -104,7 +105,7 @@ function closeMusic() {
   panel.hidden = true;
   volumeControl.hidden = true;
   openPlayer.hidden = true;
-  toggle.setAttribute('aria-expanded', 'false');
+  toggle.setAttribute('aria-pressed', 'false');
   toggle.setAttribute('aria-label', 'Включить музыку Chanakya');
   toggle.classList.remove('is-playing');
   toggle.focus({ preventScroll: true });
@@ -116,7 +117,7 @@ export function startMusic() {
   needsFade = true;
   panel.hidden = false;
   volumeControl.hidden = false;
-  toggle.setAttribute('aria-expanded', 'true');
+  toggle.setAttribute('aria-pressed', 'true');
   toggle.setAttribute('aria-label', 'Выключить музыку');
   setStatus('loading', 'Загружаем музыку…');
   if (ready) { player.setVolume(0); player.playVideo(); }
@@ -128,8 +129,11 @@ export function startMusic() {
 toggle.addEventListener('click', () => opened ? closeMusic() : startMusic());
 close.addEventListener('click', closeMusic);
 openPlayer.addEventListener('click', () => {
-  panel.scrollIntoView({ block: 'start', behavior: 'instant' });
-  (panel.querySelector('iframe') || watchLink).focus({ preventScroll: true });
+  if (panel.dataset.state === 'error') {
+    window.open(watchLink.href, '_blank', 'noopener,noreferrer');
+  } else if (ready) {
+    player.playVideo();
+  }
 });
 volumeInput.addEventListener('input', () => {
   targetVolume = Number(volumeInput.value);

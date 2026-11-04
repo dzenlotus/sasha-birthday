@@ -1,7 +1,7 @@
-import { content } from './content.js?v=3.4';
+import { content } from './content.js?v=3.5';
 import './effects.js';
-import { startMusic } from './music.js?v=3.4';
-import { renderLetter, openEnvelope, unfoldLetter } from './letter.js?v=3.4';
+import { startMusic } from './music.js?v=3.5';
+import { renderLetter, openEnvelope, unfoldLetter } from './letter.js?v=3.5';
 import { attachCandles } from './candles.js';
 import { startPetalWind } from './petals.js';
 import { DANCE_SEQUENCE, restoreProgress, saveProgress, completeChapter, matchesDance } from './state.js';

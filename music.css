@@ -2,7 +2,7 @@
 .music-toggle{display:inline-flex;align-items:center;gap:9px;min-height:44px;padding:0 15px;border:1px solid #c1d0b74d;border-radius:28px;background:#132e27ed;color:#eddfbf;backdrop-filter:blur(16px);box-shadow:0 4px 20px #0003;font-size:11px}
 .music-toggle .icon{width:20px;height:20px}
 .music-toggle.is-playing{border-color:#dfc493;background:#284a36}
-.music-panel{position:relative;z-index:35;width:min(480px,calc(100% - 32px));margin:28px auto 100px;padding:15px;border:1px solid #d6bd825c;border-radius:12px;background:#0b2823;color:#f0e4c9}
+.music-panel{position:absolute;left:-10000px;top:0;width:320px;margin:0;padding:15px;border:0;background:#0b2823;color:#f0e4c9}
 .music-panel[hidden]{display:none}
 .music-panel-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:4px}
 .music-panel h2{font:500 25px/1.1 var(--serif)}
