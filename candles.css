@@ -1,0 +1,79 @@
+.candle-scene {
+  position: relative;
+  width: 100%;
+  height: 252px;
+  isolation: isolate;
+  -webkit-tap-highlight-color: transparent;
+}
+.candle-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.candle-target {
+  position: absolute;
+  z-index: 1;
+  top: 8%;
+  width: 22%;
+  height: 80%;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 40% 40% 18% 18%;
+  background: transparent;
+  box-shadow: none;
+  cursor: pointer;
+  touch-action: manipulation;
+  transform: translateX(-50%);
+}
+.candle-target[data-candle="0"] { left: 25%; }
+.candle-target[data-candle="1"] { left: 50%; }
+.candle-target[data-candle="2"] { left: 75%; }
+.candle-target:focus-visible {
+  outline: 1px solid #e5c587;
+  outline-offset: 4px;
+  background: rgb(237 204 141 / 3%);
+}
+.candle-target[aria-pressed="true"] { cursor: default; }
+.candle-target .candle-status {
+  position: absolute;
+  left: 50%;
+  bottom: 1%;
+  color: #dbc595;
+  transform: translateX(-50%);
+  font-size: .85rem;
+}
+.is-webgl-fallback .candle-canvas { display: none; }
+.is-webgl-fallback .candle-target::before {
+  content: "";
+  position: absolute;
+  width: 42px;
+  height: 108px;
+  bottom: 10%;
+  left: calc(50% - 21px);
+  border-radius: 45% 45% 8px 8px / 7px 7px 8px 8px;
+  background: linear-gradient(90deg, #a99a77, #ecdfb8 35%, #d6c79f 70%, #ad9d78);
+  box-shadow: inset 0 2px 2px #f9ecca, 0 10px 15px #0005;
+}
+.is-webgl-fallback .candle-target::after {
+  content: "";
+  position: absolute;
+  width: 15px;
+  height: 35px;
+  bottom: calc(10% + 110px);
+  left: calc(50% - 7px);
+  border-radius: 70% 25% 55% 45%;
+  background: radial-gradient(ellipse at 50% 65%, #fff7cf 8%, #ffdc6c 40%, #f19a35 72%, transparent 75%);
+  box-shadow: 0 0 30px 7px #f5b14644;
+}
+.is-webgl-fallback .candle-target[aria-pressed="true"]::after { display: none; }
+@media (max-width: 420px) {
+  .candle-scene { height: 235px; }
+}
+
+.candle-status .icon{width:18px;height:18px}
+.candle-target:not(.out) .candle-status{opacity:0}

@@ -1,0 +1,88 @@
+/* Run this function in the browser console on a fresh postcard. No dependencies. */
+async function runBirthdayAcceptance() {
+  const checks = [];
+  function check(name, condition) {
+    checks.push({ name, passed: Boolean(condition) });
+    if (!condition) throw new Error(`Acceptance failed: ${name}`);
+  }
+  const $ = selector => document.querySelector(selector);
+  const click = selector => {
+    const button = $(selector);
+    check(`Action available: ${selector}`, button && !button.disabled);
+    button.click();
+  };
+  const chapter = () => Number($('#story').dataset.chapter);
+  check('Fresh cover', chapter() === 0);
+  check('No upper header or menu', !document.querySelector('header'));
+  check('ImageGen icons replace SVG icons', !document.querySelector('svg') && getComputedStyle($('.icon')).backgroundImage.includes('icon-atlas.png'));
+  check('Future chapters locked', [...document.querySelectorAll('.chapter-link')].slice(1).every(button => button.disabled));
+  check('Sound initially off', $('#sound-toggle').getAttribute('aria-pressed') === 'false');
+  click('[data-action="start"]');
+  check('Start opens rhythm and focuses heading', chapter() === 1 && document.activeElement.id === 'chapter-title');
+  check('Next locked before solving', $('.next-button').disabled);
+  click('[data-action="memorized"]');
+  for (let i = 0; i < 4; i++) click('[data-symbol="heart"]');
+  check('Wrong rhythm allows retry', $('.next-button').disabled && $('.game-feedback').textContent.includes('попробуй'));
+  click('[data-action="hint"]');
+  check('Rhythm hint available', $('.hint-message').textContent.includes('Лотос → Солнце → Сердце → Лотос'));
+  for (const symbol of ['lotus', 'sun', 'heart', 'lotus']) click(`[data-symbol="${symbol}"]`);
+  check('Right rhythm unlocks next and focuses it', !$('.next-button').disabled && document.activeElement.classList.contains('next-button'));
+  click('[data-action="next"]');
+  check('Italy opens', chapter() === 2);
+  click('[data-answer="espresso"]');
+  check('Espresso gives a joke without unlocking', $('.next-button').disabled && $('.game-feedback').textContent.includes('кофе'));
+  click('[data-answer="passport"]');
+  check('Passport permits another answer', $('.next-button').disabled && !$('[data-answer="happiness"]').disabled);
+  click('[data-answer="happiness"]');
+  check('Happiness unlocks', !$('.next-button').disabled);
+  click('[data-action="next"]');
+  check('Laughter opens', chapter() === 3);
+  click('[data-bubble="0"]');
+  $('[data-bubble="0"]').click();
+  check('Bubble counts once', $('.bubble-count strong').textContent === '1');
+  for (let i = 1; i < 5; i++) click(`[data-bubble="${i}"]`);
+  check('Five smiles unlock next', $('.bubble-count strong').textContent === '5' && !$('.next-button').disabled);
+  click('[data-action="next"]');
+  check('Sangha opens', chapter() === 4);
+  click('[data-intention="5"]');
+  click('[data-intention="5"]');
+  check('Repeated intention is not a new choice', $('[data-intention="5"]').getAttribute('aria-pressed') === 'false' && $('.next-button').disabled);
+  for (const i of [1, 3, 5]) click(`[data-intention="${i}"]`);
+  check('Any three wishes blossom', $('.growing-lotus').classList.contains('petals-3') && !$('.next-button').disabled);
+  click('[data-action="next"]');
+  check('Finale has a sealed letter', chapter() === 5 && Boolean($('.envelope')));
+  click('[data-action="letter"]');
+  await new Promise(resolve => setTimeout(resolve, 850));
+  check('Envelope reveals illustrated folded paper', Boolean($('.letter-illustration img')) && Boolean($('[data-action="unfold"]')) && !$('.birthday-ritual'));
+  click('[data-action="unfold"]');
+  await new Promise(resolve => setTimeout(resolve, 1200));
+  check('Full letter opens and receives focus', $('.letter-paper').textContent.includes('близкая Сангха') && document.activeElement.classList.contains('letter-paper'));
+  check('Letter has three folds and handwriting', document.querySelectorAll('.letter-fold').length === 3 && getComputedStyle($('.letter-paper p')).fontFamily.includes('Caveat'));
+  check('Real WebGL candles initialized', $('.candle-scene canvas').dataset.renderer === 'webgl');
+  const candleCanvas = $('.candle-scene canvas');
+  for (let i = 0; i < 2; i++) click(`[data-candle="${i}"]`);
+  check('Two candles do not start petals', !$('.petal-wind'));
+  click('[data-candle="2"]');
+  check('Third candle starts windblown petals', Boolean($('.petal-wind')) && $('.petal-wind').getAttribute('aria-hidden') === 'true');
+  check('Three candles go out', document.querySelectorAll('.candle-target.out').length === 3 && $('.candle-caption').textContent.includes('Пусть сбудется'));
+  check('Candle WebGL canvas reused', $('.candle-scene canvas') === candleCanvas);
+  click('[data-action="wish"]');
+  const firstWish = $('#wish-text').textContent;
+  click('[data-action="wish"]');
+  check('A new wish appears', $('#wish-text').textContent !== firstWish);
+  let download;
+  const originalClick = HTMLAnchorElement.prototype.click;
+  try {
+    HTMLAnchorElement.prototype.click = function () { download = { url: this.href, name: this.download }; };
+    click('[data-action="download"]');
+    const text = await (await fetch(download.url)).text();
+    check('UTF-8 letter downloads with actual text', download.name.endsWith('.txt') && text.includes('Саша, с днём рождения!') && text.includes('С теплом и крепким объятием'));
+  } finally { HTMLAnchorElement.prototype.click = originalClick; }
+  click('.chapter-link[data-chapter="1"]');
+  check('Completed chapter remains completed on return', chapter() === 1 && !$('.next-button').disabled);
+  click('.chapter-link[data-chapter="5"]');
+  check('Finale remains open on return', chapter() === 5 && Boolean($('.letter-paper')));
+  check('No horizontal overflow', document.documentElement.scrollWidth <= innerWidth);
+  check('All enabled targets at least 44x44', [...document.querySelectorAll('button:not(:disabled)')].every(button => { const r = button.getBoundingClientRect(); return r.width >= 44 && r.height >= 44; }));
+  return { passed: checks.length, checks, savedProgress: localStorage.getItem('sasha-sunshine-v1') };
+}
