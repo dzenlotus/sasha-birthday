@@ -1,4 +1,5 @@
 let activeWind;
+const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 
 const vertexSource = `
   precision mediump float;
@@ -71,7 +72,7 @@ function createLayer(tag = 'canvas') {
 
 /** A finite gust of rose petals after the last candle. No UI or audio changes. */
 export function startPetalWind() {
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (reducedMotion.matches) return;
   if (activeWind) return activeWind.restart();
   const canvas = createLayer();
   let gl;
@@ -97,6 +98,7 @@ export function startPetalWind() {
   let uniforms;
   function render(now) {
     frame = undefined;
+    if (reducedMotion.matches) return cleanup();
     if (document.hidden) return;
     time += Math.min((now - last) / 1000, .06);
     last = now;
