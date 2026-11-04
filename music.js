@@ -3,7 +3,9 @@ const panel = document.querySelector('#music-panel');
 const close = document.querySelector('#music-close');
 const status = document.querySelector('#music-status');
 const watchLink = document.querySelector('#music-watch');
-const VIDEO_ID = 'KBYSpR8N6pc';
+const volumeInput = document.querySelector('#music-volume');
+const volumeValue = document.querySelector('#music-volume-value');
+const VIDEO_ID = '2dBHTz6g5AM';
 
 export let player;
 let opened = false;
@@ -12,6 +14,7 @@ let loading = false;
 let needsFade = true;
 let fade;
 let loadTimer;
+let targetVolume = Number(volumeInput.value);
 
 function setStatus(state, message) {
   panel.dataset.state = state;
@@ -31,9 +34,9 @@ function fadeIn() {
   player.setVolume(0);
   let volume = 0;
   fade = setInterval(() => {
-    volume = Math.min(30, volume + 2);
+    volume = Math.min(targetVolume, volume + Math.max(1, Math.ceil(targetVolume / 15)));
     player.setVolume(volume);
-    if (volume === 30) { needsFade = false; clearInterval(fade); }
+    if (volume === targetVolume) { needsFade = false; clearInterval(fade); }
   }, 80);
 }
 
@@ -51,7 +54,7 @@ function createPlayer() {
         clearTimeout(loadTimer);
         ready = true;
         player.getIframe().setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
-        player.getIframe().setAttribute('title', 'Chanakya — Rishab Rikhiram Sharma, Live from Mumbai');
+        player.getIframe().setAttribute('title', 'Chanakya — Rishab Rikhiram Sharma, Official Music Video');
         player.setVolume(0);
         if (opened) player.playVideo();
       },
@@ -102,8 +105,8 @@ function closeMusic() {
   toggle.focus({ preventScroll: true });
 }
 
-toggle.addEventListener('click', () => {
-  if (opened) return closeMusic();
+export function startMusic() {
+  if (opened) return;
   opened = true;
   needsFade = true;
   panel.hidden = false;
@@ -115,8 +118,19 @@ toggle.addEventListener('click', () => {
     loadTimer = setTimeout(() => { if (opened && !ready) showError(); }, 12000);
     loadPlayer();
   }
-});
+}
+toggle.addEventListener('click', () => opened ? closeMusic() : startMusic());
 close.addEventListener('click', closeMusic);
+volumeInput.addEventListener('input', () => {
+  targetVolume = Number(volumeInput.value);
+  volumeValue.textContent = `${targetVolume}%`;
+  volumeInput.setAttribute('aria-valuetext', `${targetVolume}%`);
+  if (ready) {
+    clearInterval(fade);
+    needsFade = false;
+    player.setVolume(targetVolume);
+  }
+});
 panel.addEventListener('keydown', event => {
   if (event.key === 'Escape') { event.preventDefault(); closeMusic(); }
 });

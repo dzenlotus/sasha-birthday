@@ -5,11 +5,13 @@ const escape = value => String(value ?? '').replace(/[&<>"']/g, character => ({
 const reducedMotion = () => globalThis.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
 
 export function renderLetter(finale, expanded = false) {
-  const paragraphs = finale.letter.map(paragraph => `<p>${escape(paragraph)}</p>`);
+  const greetingEnd = finale.letter[0].indexOf('!') + 1;
+  const greeting = finale.letter[0].slice(0, greetingEnd);
+  const paragraphs = finale.letter.map((paragraph, index) => `<p>${escape(index === 0 ? paragraph.slice(greetingEnd).trim() : paragraph)}</p>`);
   return `<article class="letter-paper${expanded ? ' is-expanded' : ''}" tabindex="-1" aria-label="Письмо для Саши">
     <div class="letter-fold letter-fold--top">
       <div class="letter-illustration" aria-hidden="true"><img src="./assets/letter-garden.png" alt="" width="1536" height="1024"></div>
-      <h2 class="letter-salutation">Дорогая Саша,</h2>
+      <h2 class="letter-salutation">${escape(greeting)}</h2>
       ${paragraphs[0]}
       ${expanded ? '' : `<button class="letter-unfold-action" data-action="unfold" aria-expanded="false"><span>Развернуть письмо</span><span class="icon icon-download" aria-hidden="true"></span></button>`}
     </div>

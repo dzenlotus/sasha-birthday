@@ -15,5 +15,8 @@
 .music-watch[hidden]{display:none}
 .music-links{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:0 9px}
 .music-links a{display:inline-flex;align-items:center;min-height:44px;min-width:44px;color:#d9c59f;font-size:9px;text-underline-offset:4px}
+.music-volume{display:flex;align-items:center;flex-wrap:wrap;justify-content:space-between;gap:0 12px;font-size:11px;color:#eddfbf;margin-top:5px}
+.music-volume input{width:100%;height:44px;margin:0;accent-color:#e8bf84;cursor:pointer}
+.music-volume output{font-variant-numeric:tabular-nums}
 @media(min-width:761px){.ambient-controls{bottom:8px}.footer-bottom{padding-right:180px}}
 @media(max-width:760px){.music-panel{right:16px;bottom:76px}.music-toggle{font-size:10px;padding:0 12px}.music-panel h2{font-size:24px}}

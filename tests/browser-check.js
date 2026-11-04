@@ -24,7 +24,7 @@ async function runBirthdayAcceptance() {
   check('Next locked before solving', $('.next-button').disabled);
   click('[data-action="memorized"]');
   for (let i = 0; i < 4; i++) click('[data-symbol="heart"]');
-  check('Wrong rhythm allows retry', $('.next-button').disabled && $('.game-feedback').textContent.includes('попробуй'));
+  check('Wrong rhythm allows retry', $('.next-button').disabled && $('.game-feedback').textContent.includes('Давай ещё раз'));
   click('[data-action="hint"]');
   check('Rhythm hint available', $('.hint-message').textContent.includes('Лотос → Солнце → Сердце → Лотос'));
   for (const symbol of ['lotus', 'sun', 'heart', 'lotus']) click(`[data-symbol="${symbol}"]`);
@@ -32,7 +32,7 @@ async function runBirthdayAcceptance() {
   click('[data-action="next"]');
   check('Italy opens', chapter() === 2);
   click('[data-answer="espresso"]');
-  check('Espresso gives a joke without unlocking', $('.next-button').disabled && $('.game-feedback').textContent.includes('кофе'));
+  check('Espresso gives a joke without unlocking', $('.next-button').disabled && $('.game-feedback').textContent.toLowerCase().includes('кофе'));
   click('[data-answer="passport"]');
   check('Passport permits another answer', $('.next-button').disabled && !$('[data-answer="happiness"]').disabled);
   click('[data-answer="happiness"]');
@@ -58,7 +58,8 @@ async function runBirthdayAcceptance() {
   check('Envelope reveals illustrated folded paper', Boolean($('.letter-illustration img')) && Boolean($('[data-action="unfold"]')) && !$('.birthday-ritual'));
   click('[data-action="unfold"]');
   await new Promise(resolve => setTimeout(resolve, 1200));
-  check('Full letter opens and receives focus', $('.letter-paper').textContent.includes('близкая Сангха') && document.activeElement.classList.contains('letter-paper'));
+  check('Personal letter opens and receives focus', $('.letter-paper').textContent.includes('Сашечка, родная') && document.activeElement.classList.contains('letter-paper'));
+  check('No formal religious title in the greeting', !$('.letter-paper').textContent.includes('сестра по Дхарме'));
   check('Letter has three folds and handwriting', document.querySelectorAll('.letter-fold').length === 3 && getComputedStyle($('.letter-paper p')).fontFamily.includes('Caveat'));
   check('Real WebGL candles initialized', $('.candle-scene canvas').dataset.renderer === 'webgl');
   const candleCanvas = $('.candle-scene canvas');
@@ -78,7 +79,7 @@ async function runBirthdayAcceptance() {
     HTMLAnchorElement.prototype.click = function () { download = { url: this.href, name: this.download }; };
     click('[data-action="download"]');
     const text = await (await fetch(download.url)).text();
-    check('UTF-8 letter downloads with actual text', download.name.endsWith('.txt') && text.includes('Саша, с днём рождения!') && text.includes('С теплом и крепким объятием'));
+    check('UTF-8 letter downloads with personal text', download.name.endsWith('.txt') && text.includes('Сашечка, родная, с днём рождения!') && text.includes('Обнимаю тебя )'));
   } finally { HTMLAnchorElement.prototype.click = originalClick; }
   click('.chapter-link[data-chapter="1"]');
   check('Completed chapter remains completed on return', chapter() === 1 && !$('.next-button').disabled);

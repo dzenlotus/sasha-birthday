@@ -202,3 +202,5 @@ h1 em{font-weight:500;color:var(--orange)}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.page-enter h1,.page-enter .game-area{opacity:1;transform:none;filter:none}.primary:hover:not(:disabled),.joy-bubble:hover:not(:disabled),.answer-button:hover:not(:disabled),.symbol-button:hover,.envelope:hover{transform:none}}
 
 .primary.magic-shimmer{color:#f7e3bd}
+
+.cover h1>span{font-size:clamp(68px,10vw,155px);line-height:.95}
