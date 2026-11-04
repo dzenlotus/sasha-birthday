@@ -1,6 +1,6 @@
 /* After a real click on the card's main start button, run this in the browser console. */
 async function runMusicAcceptance() {
-  const { player } = await import(new URL('./music.js', document.baseURI).href);
+  const { player } = await import(new URL('./music.js?v=3.4', document.baseURI).href);
   const checks = [];
   const check = (name, condition) => {
     checks.push({ name, passed: Boolean(condition) });
