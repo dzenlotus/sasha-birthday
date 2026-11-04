@@ -1,5 +1,6 @@
 import { content } from './content.js';
 import './effects.js';
+import './music.js';
 import { renderLetter, openEnvelope, unfoldLetter } from './letter.js';
 import { attachCandles } from './candles.js';
 import { startPetalWind } from './petals.js';

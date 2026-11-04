@@ -17,6 +17,8 @@ async function runBirthdayAcceptance() {
   check('ImageGen icons replace SVG icons', !document.querySelector('svg') && getComputedStyle($('.icon')).backgroundImage.includes('icon-atlas.png'));
   check('Future chapters locked', [...document.querySelectorAll('.chapter-link')].slice(1).every(button => button.disabled));
   check('Sound initially off', $('#sound-toggle').getAttribute('aria-pressed') === 'false');
+  check('Music initially off', $('#music-panel').hidden && $('#music-toggle').getAttribute('aria-expanded') === 'false');
+  check('No YouTube requests before music consent', !document.querySelector('#youtube-api') && !document.querySelector('#music-panel iframe'));
   click('[data-action="start"]');
   check('Start opens rhythm and focuses heading', chapter() === 1 && document.activeElement.id === 'chapter-title');
   check('Next locked before solving', $('.next-button').disabled);
@@ -83,6 +85,6 @@ async function runBirthdayAcceptance() {
   click('.chapter-link[data-chapter="5"]');
   check('Finale remains open on return', chapter() === 5 && Boolean($('.letter-paper')));
   check('No horizontal overflow', document.documentElement.scrollWidth <= innerWidth);
-  check('All enabled targets at least 44x44', [...document.querySelectorAll('button:not(:disabled)')].every(button => { const r = button.getBoundingClientRect(); return r.width >= 44 && r.height >= 44; }));
+  check('All visible enabled targets at least 44x44', [...document.querySelectorAll('button:not(:disabled)')].filter(button => button.getClientRects().length > 0).every(button => { const r = button.getBoundingClientRect(); return r.width >= 44 && r.height >= 44; }));
   return { passed: checks.length, checks, savedProgress: localStorage.getItem('sasha-sunshine-v1') };
 }

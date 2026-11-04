@@ -16,7 +16,7 @@ npm start
 
 ## SDD
 
-- [Спецификация v3.1 с Given/When/Then](docs/specification.md).
+- [Спецификация v3.2 с Given/When/Then](docs/specification.md).
 - [План и матрица приёмки](docs/plan.md).
 - [Фактические проверки](docs/verification.md).
 - [Визуальная концепция и точные промпты иллюстраций](docs/art-direction.md).
@@ -41,3 +41,13 @@ GitHub Pages публикует корень ветки `main`; `.nojekyll` от
 Шрифты, иллюстрации и все созданные в ImageGen иконки хранятся локально. Лицензии шрифтов включены в `assets/`. Настоящий GLSL-шейдер работает в `effects.js`; Aurora Text и Shimmer Button адаптированы из официальных исходников Magic UI в обычный CSS без React.
 
 Письмо и его сгибы — в `letter.js`/`letter.css`; свечи — настоящий WebGL в `candles.js`; поток лепестков — в `petals.js`.
+
+## Музыка
+
+Кнопка «Музыка» включает **Rishab Rikhiram Sharma — Chanakya (Live from Mumbai)** в видимом YouTube-плеере. Громкость плавно повышается до 30%; её можно менять штатными controls. Плеер сохраняется при перелистывании, а закрытие ставит запись на паузу. Звуковые эффекты открытки включаются отдельной кнопкой.
+
+Файл записи не хранится в репозитории. До включения музыки запросов к YouTube нет; после включения воспроизведение требует доступа к YouTube. Если браузер попросит, нужно нажать Play в самом плеере. Прямая ссылка на запись доступна в панели.
+
+Код: `music.js` / `music.css`. Проверка: после настоящего нажатия «Музыка» и начала воспроизведения вставить функцию из `tests/music-check.js` в консоль и выполнить `await runMusicAcceptance()`.
+
+Используется [официальный IFrame Player API](https://developers.google.com/youtube/iframe_api_reference), с учётом [размера и отображения плеера](https://developers.google.com/youtube/terms/required-minimum-functionality). Скрытый аудиоплеер не создаётся.

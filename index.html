@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="./style.css">
   <link rel="stylesheet" href="./letter.css">
   <link rel="stylesheet" href="./candles.css">
+  <link rel="stylesheet" href="./music.css">
   <link rel="preload" as="image" href="./assets/moonlit-garden.png" fetchpriority="high">
   <script type="module" src="./app.js"></script>
 </head>
@@ -26,7 +27,21 @@
     <nav id="chapters" aria-label="Главы открытки"></nav>
     <div class="footer-bottom"><span>ИНДИЯ. ИТАЛИЯ. И НЕМНОГО ВОЛШЕБСТВА.</span><span>СОЗДАНО С ТЕПЛОМ <span class="icon icon-heart tiny-heart" aria-hidden="true"></span></span></div>
   </footer>
-  <div class="ambient-controls"><button class="sound-button" id="sound-toggle" data-action="sound" aria-pressed="false" aria-label="Включить звуковые эффекты"><span class="icon icon-muted" aria-hidden="true"></span><span>Звук выключен</span></button></div>
+  <div class="ambient-controls">
+    <button class="music-toggle" id="music-toggle" aria-expanded="false" aria-controls="music-panel" aria-label="Включить музыку Chanakya"><span class="icon icon-sound" aria-hidden="true"></span><span>Музыка</span></button>
+    <button class="sound-button" id="sound-toggle" data-action="sound" aria-pressed="false" aria-label="Включить звуковые эффекты"><span class="icon icon-muted" aria-hidden="true"></span><span>Звук выключен</span></button>
+  </div>
+  <section id="music-panel" class="music-panel" aria-labelledby="music-title" data-state="off" hidden>
+    <div class="music-panel-heading"><h2 id="music-title">Chanakya</h2><button id="music-close" class="music-close" aria-label="Выключить музыку и закрыть плеер">Выключить</button></div>
+    <p class="music-credit">Rishab Rikhiram Sharma · Live from Mumbai</p>
+    <div class="music-video-wrap"><div id="music-video"></div></div>
+    <p id="music-status" class="music-status" role="status" aria-live="polite">Включается только по твоему желанию.</p>
+    <div class="music-links">
+      <a id="music-watch" class="music-watch" href="https://www.youtube.com/watch?v=KBYSpR8N6pc" target="_blank" rel="noopener noreferrer">Открыть на YouTube</a>
+      <a href="https://www.youtube.com/t/terms" target="_blank" rel="noopener noreferrer">Условия</a>
+      <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Конфиденциальность</a>
+    </div>
+  </section>
   <div id="announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
   <noscript><div class="no-script">Саша, с днём рождения! Ты добрая, умная, красивая — и очень близкий человек. Пусть в жизни будет много любви, танца и смеха. Для интерактивного путешествия включи JavaScript в браузере.</div></noscript>
 </body>
