@@ -5,6 +5,8 @@ const status = document.querySelector('#music-status');
 const watchLink = document.querySelector('#music-watch');
 const volumeInput = document.querySelector('#music-volume');
 const volumeValue = document.querySelector('#music-volume-value');
+const volumeControl = document.querySelector('.music-volume');
+const openPlayer = document.querySelector('#music-open-player');
 const VIDEO_ID = '2dBHTz6g5AM';
 
 export let player;
@@ -20,6 +22,7 @@ function setStatus(state, message) {
   panel.dataset.state = state;
   status.textContent = message;
   toggle.classList.toggle('is-playing', state === 'playing');
+  openPlayer.hidden = !opened || !['ready', 'error'].includes(state);
 }
 
 function showError() {
@@ -64,7 +67,7 @@ function createPlayer() {
           return;
         }
         if (event.data === 1) {
-          setStatus('playing', 'Играет. Громкость можно изменить в плеере.');
+          setStatus('playing', 'Играет. Громкость — внизу справа.');
           if (needsFade) fadeIn();
         } else if (event.data === 2 || event.data === 0) {
           clearInterval(fade);
@@ -99,6 +102,8 @@ function closeMusic() {
   clearTimeout(loadTimer);
   if (ready) player.pauseVideo();
   panel.hidden = true;
+  volumeControl.hidden = true;
+  openPlayer.hidden = true;
   toggle.setAttribute('aria-expanded', 'false');
   toggle.setAttribute('aria-label', 'Включить музыку Chanakya');
   toggle.classList.remove('is-playing');
@@ -110,8 +115,9 @@ export function startMusic() {
   opened = true;
   needsFade = true;
   panel.hidden = false;
+  volumeControl.hidden = false;
   toggle.setAttribute('aria-expanded', 'true');
-  toggle.setAttribute('aria-label', 'Выключить музыку и закрыть плеер');
+  toggle.setAttribute('aria-label', 'Выключить музыку');
   setStatus('loading', 'Загружаем музыку…');
   if (ready) { player.setVolume(0); player.playVideo(); }
   else {
@@ -121,6 +127,10 @@ export function startMusic() {
 }
 toggle.addEventListener('click', () => opened ? closeMusic() : startMusic());
 close.addEventListener('click', closeMusic);
+openPlayer.addEventListener('click', () => {
+  panel.scrollIntoView({ block: 'start', behavior: 'instant' });
+  (panel.querySelector('iframe') || watchLink).focus({ preventScroll: true });
+});
 volumeInput.addEventListener('input', () => {
   targetVolume = Number(volumeInput.value);
   volumeValue.textContent = `${targetVolume}%`;

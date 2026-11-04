@@ -29,6 +29,9 @@ async function runBirthdayAcceptance() {
   check('Rhythm hint available', $('.hint-message').textContent.includes('Лотос → Солнце → Сердце → Лотос'));
   for (const symbol of ['lotus', 'sun', 'heart', 'lotus']) click(`[data-symbol="${symbol}"]`);
   check('Right rhythm unlocks next and focuses it', !$('.next-button').disabled && document.activeElement.classList.contains('next-button'));
+  const nextRect = $('.next-button').getBoundingClientRect();
+  const dockRect = $('.ambient-controls').getBoundingClientRect();
+  check('Focused next button is clear of music controls', !(nextRect.left < dockRect.right && nextRect.right > dockRect.left && nextRect.top < dockRect.bottom && nextRect.bottom > dockRect.top));
   click('[data-action="next"]');
   check('Italy opens', chapter() === 2);
   click('[data-answer="espresso"]');

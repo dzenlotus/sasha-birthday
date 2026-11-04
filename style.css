@@ -1,6 +1,6 @@
 :root{--paper:#071d1c;--ink:#f4ecd9;--muted:#b3c2b6;--orange:#e8bf84;--olive:#b1cbb0;--line:#b4c6ae30;--serif:'Cormorant Garamond',Georgia,serif;--sans:'Manrope',sans-serif}
 *{box-sizing:border-box}
-html{background:var(--paper);scroll-behavior:smooth}
+html{background:var(--paper);scroll-behavior:smooth;scroll-padding-bottom:128px}
 body{margin:0;color:var(--ink);font:400 14px/1.7 var(--sans);-webkit-font-smoothing:antialiased;background:radial-gradient(ellipse at 75% 25%,#153d34 0,transparent 65%),#071d1c}
 body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:url('./assets/moonlit-garden.png') center/cover no-repeat;opacity:.13}
 ::selection{background:#d5b17c;color:#102c26}
@@ -45,7 +45,7 @@ h1 em{font-weight:500;color:var(--orange)}
 .cover-footnote{position:absolute;right:7%;bottom:52px;display:flex;align-items:flex-start;gap:18px;font-size:11px;line-height:1.9;z-index:3;color:#e0deca;text-shadow:0 2px 12px #001c17}
 .little-line{display:block;width:40px;height:1px;background:#e4c28e;margin-top:10px}
 .cover-margin-note{position:absolute;right:25px;top:41%;writing-mode:vertical-rl;font-size:7px;color:#e8dfc2;letter-spacing:.26em;z-index:3;opacity:.75}
-.site-footer{position:relative;z-index:4;margin:0 5.5%;padding:13px 0 17px;border-top:1px solid var(--line)}
+.site-footer{position:relative;z-index:4;margin:0 5.5%;padding:13px 0 64px;border-top:1px solid var(--line)}
 .footer-top{display:flex;justify-content:space-between;align-items:center;font-size:8px;letter-spacing:.2em;color:var(--muted);margin-bottom:5px}
 #chapter-count{font-variant-numeric:tabular-nums;letter-spacing:.16em}
 #chapters{display:grid;grid-template-columns:repeat(6,1fr);gap:21px}

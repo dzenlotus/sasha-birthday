@@ -12,7 +12,10 @@ async function runMusicAcceptance() {
   check('Actually playing', player.getPlayerState() === 1 && panel.dataset.state === 'playing');
   const frame = panel.querySelector('iframe');
   const rect = frame.getBoundingClientRect();
-  check('Player visible and at least 200 by 200', !panel.hidden && rect.width >= 200 && rect.height >= 200);
+  check('Inline player remains displayed and at least 200 by 200', !panel.hidden && rect.width >= 200 && rect.height >= 200);
+  check('Player is in normal document flow', getComputedStyle(panel).position === 'relative');
+  check('Player is below the footer', panel.getBoundingClientRect().top >= document.querySelector('.site-footer').getBoundingClientRect().bottom);
+  check('Volume control stays in the compact dock', Boolean(document.querySelector('.ambient-controls #music-volume')) && !document.querySelector('.music-volume').hidden);
   check('Player above decorative petals', Number(getComputedStyle(panel).zIndex) > 25);
   await wait(1400);
   check('Fade reaches the selected 70 percent', player.getVolume() === 70);
@@ -33,6 +36,7 @@ async function runMusicAcceptance() {
   await wait(400);
   check('Closing really pauses', player.getPlayerState() === 2);
   check('Panel closed and control reset', panel.hidden && document.querySelector('#music-toggle').getAttribute('aria-expanded') === 'false');
+  check('Volume control hides when music is off', document.querySelector('.music-volume').hidden);
   check('Focus returns to music button', document.activeElement.id === 'music-toggle');
   document.querySelector('.chapter-link[data-chapter="0"]').click();
   await wait(100);
